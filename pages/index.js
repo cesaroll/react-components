@@ -3,7 +3,7 @@ import { data } from "../SpeakerData";
 const Session = ({title, room}) => {
   return (
     <span className="session">
-      {title} <strong>Room: {room}</strong>
+      {title} <strong>Room: {room.name}</strong>
     </span>
   );
 }
@@ -11,7 +11,7 @@ const Session = ({title, room}) => {
 const Sessions = ({sessions}) => {
   return (
     <div className="session-box card h-250">
-      <Session title={sessions[0].title} room={sessions[0].room.name} />
+      <Session {...sessions[0]} />
     </div>
   );
 }
