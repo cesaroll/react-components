@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { data } from "../../SpeakerData";
 
 export const REQUEST_STATUS = {
   LOADING: "loading",
@@ -7,9 +6,9 @@ export const REQUEST_STATUS = {
   FAILURE: "failure"
 };
 
-const useRequestSpeakers = (delayTime = 1000) => {
+const useRequestDelay = (delayTime = 1000, initialData = []) => {
 
-  const [speakersData, setSpeakersData] = useState([]);
+  const [data, setData] = useState(initialData);
   const [requestStatus, setRequestStatus] = useState(REQUEST_STATUS.LOADING);
   const [error, setError] = useState("");
 
@@ -20,32 +19,36 @@ const useRequestSpeakers = (delayTime = 1000) => {
       await delay(delayTime);
       // throw "Had error";
       setRequestStatus(REQUEST_STATUS.SUCCESS);
-      setSpeakersData(data);
+      setData(data);
     } catch(e) {
       setRequestStatus(REQUEST_STATUS.FAILURE);
       setError(e);
     }
   }, []);
 
-  const onFavoriteToggle = id => {
-    const speakerRecPrevious = speakersData.find(rec => rec.id === id);
+  const updateRecord = (recordUpdated) => {
 
-    const speakerRecUpdated = {
-      ...speakerRecPrevious,
-      favorite: !speakerRecPrevious.favorite
+    const newRecords = data.map(rec => rec.id === recordUpdated.id ? recordUpdated : rec);
+
+    const setDataWithDelay = async () => {
+      try {
+        await delay(delayTime);
+        setData(newRecords);
+      } catch(e) {
+        console.log("Error inside delay function", e);
+      }
     };
 
-    const speakersDataNew = speakersData.map( rec => rec.id === id ? speakerRecUpdated : rec);
+    setDataWithDelay();
 
-    setSpeakersData(speakersDataNew);
-  }
+  };
 
   return {
-    speakersData,
+    data,
     requestStatus,
     error,
-    onFavoriteToggle
+    updateRecord
   };
 }
 
-export default useRequestSpeakers;
+export default useRequestDelay;
