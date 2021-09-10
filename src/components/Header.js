@@ -1,17 +1,17 @@
 const Header = ({theme}) => {
   return(
-    <div class="padT4 padB4">
-      <div class="container mobile-container">
-        <div class="d-flex justify-content-between">
+    <div className="padT4 padB4">
+      <div className="container mobile-container">
+        <div className="d-flex justify-content-between">
           <div>
             <img alt="SVCC Home Page"
               src="/images/SVCClogo.png" />
           </div>
-          <div class={
+          <div className={
               theme=== "light" ? "light" : "text-info"
               }
             >
-            <h4 class="header-title">
+            <h4 className="header-title">
               Silicon Valley Code Camp
             </h4>
           </div>

@@ -35,10 +35,10 @@ const SpeakersList = ({showSessions}) => {
                 key={speaker.id}
                 speaker={speaker}
                 showSessions={showSessions}
-                onFavoriteToggle={() => updateRecord({
+                onFavoriteToggle={(doneCallback) => updateRecord({
                   ...speaker,
                   favorite: !speaker.favorite
-                })}
+                }, doneCallback)}
               />
             );
           })}
@@ -49,16 +49,3 @@ const SpeakersList = ({showSessions}) => {
 }
 
 export default SpeakersList;
-
-const onFavoriteToggle = id => {
-  const speakerRecPrevious = data.find(rec => rec.id === id);
-
-  const speakerRecUpdated = {
-    ...speakerRecPrevious,
-    favorite: !speakerRecPrevious.favorite
-  };
-
-  const speakersDataNew = data.map( rec => rec.id === id ? speakerRecUpdated : rec);
-
-  setData(speakersDataNew);
-}
