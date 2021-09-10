@@ -53,7 +53,7 @@ const SpeakerInfo = ({first, last, bio, company, twitterHandle, favorite}) => {
   );
 }
 
-const Speaker = ({speaker}) => {
+const Speaker = ({speaker, showSessions}) => {
   const {id, first, last, sessions} = speaker;
   return (
     <div className="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-sm-12 col-xs-12">
@@ -61,7 +61,9 @@ const Speaker = ({speaker}) => {
         <SpeakerImage id={id} first={first} last={last}/>
         <SpeakerInfo {...speaker}/>
       </div>
-      <Sessions sessions={sessions} />
+      {showSessions === true ?
+        <Sessions sessions={sessions} /> : null
+      }
     </div>
   );
 }
