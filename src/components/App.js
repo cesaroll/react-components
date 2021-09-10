@@ -1,10 +1,6 @@
 import { useState } from "react";
-import { data } from "../../SpeakerData";
 import Header from "./Header";
 import Speakers from "./Speakers";
-import SpeakersList from "./SpeakersList";
-import SpeakersToolbar from "./SpeakersToolbar";
-
 
 const App = () => {
 
@@ -19,7 +15,7 @@ const App = () => {
       }
     >
       <Header theme={theme} />
-      <Speakers data={data} theme={theme} setTheme={setTheme} />
+      <Speakers theme={theme} setTheme={setTheme} />
     </div>
   );
 }

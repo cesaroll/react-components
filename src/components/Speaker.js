@@ -26,7 +26,26 @@ const SpeakerImage = ({id, first, last}) => {
   );
 }
 
-const SpeakerInfo = ({first, last, bio, company, twitterHandle, favorite}) => {
+const SpeakerFavorite = ({favorite}) => {
+  return(
+    <div class="action padB1">
+      <span>
+        <i className={favorite === true ? "fa fa-star orange" : "fa fa-star-o orange"}
+        />{" "}
+        Favorite{" "}
+      </span>
+    </div>
+  );
+}
+
+const SpeakerDemographics = ({
+  first,
+  last,
+  bio,
+  company,
+  twitterHandle,
+  favorite
+}) => {
   return (
     <div className="speaker-info">
       <div className="d-flex justify-content-between mb-3">
@@ -34,6 +53,7 @@ const SpeakerInfo = ({first, last, bio, company, twitterHandle, favorite}) => {
           {first} {last}
         </h3>
       </div>
+      <SpeakerFavorite favorite={favorite}/>
       <div>
         <p className="card-description">
           {bio}
@@ -59,7 +79,7 @@ const Speaker = ({speaker, showSessions}) => {
     <div className="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-sm-12 col-xs-12">
       <div className="card card-height p-4 mt-4">
         <SpeakerImage id={id} first={first} last={last}/>
-        <SpeakerInfo {...speaker}/>
+        <SpeakerDemographics {...speaker}/>
       </div>
       {showSessions === true ?
         <Sessions sessions={sessions} /> : null
