@@ -1,4 +1,10 @@
-const Header = ({theme}) => {
+import { useContext } from "react";
+import { ThemeContext } from './App';
+
+const Header = () => {
+
+  const theme = useContext(ThemeContext)?.theme;
+
   return(
     <div className="padT4 padB4">
       <div className="container mobile-container">
@@ -8,7 +14,7 @@ const Header = ({theme}) => {
               src="/images/SVCClogo.png" />
           </div>
           <div className={
-              theme=== "light" ? "light" : "text-info"
+              theme === "light" ? "light" : "text-info"
               }
             >
             <h4 className="header-title">
@@ -17,7 +23,7 @@ const Header = ({theme}) => {
           </div>
           <div
             className={
-              theme=== "light" ? "" : "text-info"
+              theme === "light" ? "" : "text-info"
             }
           >
             Hello Mr Smith &nbsp;&nbsp;
