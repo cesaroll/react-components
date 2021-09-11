@@ -14,16 +14,20 @@ const useRequestDelay = (delayTime = 1000, initialData = []) => {
 
   const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
-  useEffect( async () => {
-    try {
-      await delay(delayTime);
-      // throw "Had error";
-      setRequestStatus(REQUEST_STATUS.SUCCESS);
-      setData(data);
-    } catch(e) {
-      setRequestStatus(REQUEST_STATUS.FAILURE);
-      setError(e);
-    }
+  useEffect(() => {
+    const delayFunc = async () => {
+      try {
+        await delay(delayTime);
+        // throw "Had error";
+        setRequestStatus(REQUEST_STATUS.SUCCESS);
+        setData(data);
+      } catch(e) {
+        setRequestStatus(REQUEST_STATUS.FAILURE);
+        setError(e);
+      }
+
+    };
+    delayFunc();
   }, []);
 
   const updateRecord = (recordUpdated, doneCallback) => {

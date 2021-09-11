@@ -1,5 +1,3 @@
-
-
 const SpeakersToolbar = ({
   theme,
   setTheme,
