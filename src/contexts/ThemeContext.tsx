@@ -1,20 +1,21 @@
-import React, {createContext, useState}  from "react";
-import { IThemeContext } from "../types/IThemeContext";
+import React, {createContext}  from "react";
+import { useTheme } from "../hooks/useTheme";
+import { ITheme } from "../types/ITheme";
 
-export const ThemeContext = createContext<IThemeContext>({theme: "", setTheme: (()=>{})});
+export const ThemeContext = createContext<ITheme>({theme: "", setTheme: (()=>{})});
 
-export function ThemeProvider ({
+ export const ThemeProvider = ({
   children,
   startingTheme
 }:{
   startingTheme: string,
   children: any
-}) {
+}) => {
 
-  const [theme, setTheme] = useState<string>(startingTheme);
+  const theme = useTheme(startingTheme);
 
   return (
-    <ThemeContext.Provider value={{theme: theme, setTheme: setTheme}}>
+    <ThemeContext.Provider value={theme}>
         {children}
     </ThemeContext.Provider>
   );
