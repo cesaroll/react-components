@@ -1,6 +1,6 @@
 import Header from "./Header";
 import Speakers from "./Speakers";
-import { Layout } from "./Layout";
+import Layout from "./Layout";
 
 const App = () => {
   return (

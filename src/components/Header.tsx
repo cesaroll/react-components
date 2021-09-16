@@ -1,9 +1,10 @@
 import { useContext } from "react";
-import { ThemeContext } from "./Layout";
+import { ThemeContext } from "../contexts/ThemeContext";
+
 
 const Header = () => {
 
-  const theme = useContext(ThemeContext)?.theme;
+  const theme = useContext(ThemeContext).theme;
 
   return(
     <div className="padT4 padB4">
