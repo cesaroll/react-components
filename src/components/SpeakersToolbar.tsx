@@ -1,13 +1,13 @@
 import { useContext } from "react";
-import { ThemeContext } from "./App";
+import { ThemeContext } from "./Layout";
 
 const SpeakersToolbar = ({
   showSessions,
   setShowSessions
 }) => {
 
-  const theme = useContext(ThemeContext)?.theme;
-  const setTheme = useContext(ThemeContext)?.setTheme;
+  const theme = useContext(ThemeContext).theme;
+  const setTheme = useContext(ThemeContext).setTheme;
 
   return (
     <section className="toolbar dark-theme-header">
