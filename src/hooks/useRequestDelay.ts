@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { ISpeaker } from '../types/Speaker/ISpeaker';
 
 export const REQUEST_STATUS = {
   LOADING: "loading",
@@ -6,13 +7,15 @@ export const REQUEST_STATUS = {
   FAILURE: "failure"
 };
 
-const useRequestDelay = (delayTime = 1000, initialData = []) => {
+const useRequestDelay = (
+  delayTime: number = 1000,
+  initialData: ISpeaker[] = []) => {
 
   const [data, setData] = useState(initialData);
   const [requestStatus, setRequestStatus] = useState(REQUEST_STATUS.LOADING);
   const [error, setError] = useState("");
 
-  const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+  const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
   useEffect(() => {
     const delayFunc = async () => {
@@ -23,14 +26,14 @@ const useRequestDelay = (delayTime = 1000, initialData = []) => {
         setData(data);
       } catch(e) {
         setRequestStatus(REQUEST_STATUS.FAILURE);
-        setError(e);
+        setError((e as Error).message);
       }
 
     };
     delayFunc();
   }, []);
 
-  const updateRecord = (recordUpdated, doneCallback) => {
+  const updateRecord = (recordUpdated: ISpeaker, doneCallback: Function) => {
     const originalRecords = [...data];
     const newRecords = data.map(rec => rec.id === recordUpdated.id ? recordUpdated : rec);
 

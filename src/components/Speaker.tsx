@@ -1,7 +1,16 @@
 import { useState, useContext } from "react";
 import { SpeakerFilterContext } from "../contexts/SpeakerFilterContext";
+import { ISpeakerFilter } from '../types/ISpeakerFilter';
+import { ISession, IRoom } from '../types/Speaker/ISession';
+import { ISpeaker } from '../types/Speaker/ISpeaker';
 
-const Session = ({title, room}) => {
+const Session = ({
+  title,
+  room
+}: {
+  title: string,
+  room: IRoom
+}) => {
   return (
     <span className="session">
       {title} <strong>Room: {room.name}</strong>
@@ -9,15 +18,36 @@ const Session = ({title, room}) => {
   );
 }
 
-const Sessions = ({sessions}) => {
+const Sessions = ({sessions}: {sessions: ISession[]}) => {
+
+  const { eventYear } = useContext<ISpeakerFilter>(SpeakerFilterContext);
+
   return (
     <div className="session-box card h-250">
-      <Session {...sessions[0]} />
+      {sessions
+        .filter(session => session.eventYear === eventYear.eventYear)
+        .map(session => {
+          return(
+            <div className="session" key={session.id}>
+              <Session {...session} />
+            </div>
+          )
+        })
+
+      }
     </div>
   );
 }
 
-const SpeakerImage = ({id, first, last}) => {
+const SpeakerImage = ({
+  id,
+  first,
+  last
+}: {
+  id: string,
+  first: string,
+  last: string
+}) => {
   return (
     <div className="speaker-img d-flex flex-row justify-content-center align-contents-center h-300">
       <img className="contain-fit"
@@ -29,7 +59,14 @@ const SpeakerImage = ({id, first, last}) => {
   );
 }
 
-const SpeakerFavorite = ({favorite, onFavoriteToggle}) => {
+const SpeakerFavorite = ({
+  favorite,
+  onFavoriteToggle
+}: {
+  favorite: boolean,
+  onFavoriteToggle: Function
+}) => {
+
   const [inTransition, setInTransition] = useState(false);
 
   const doneCallback = () => {
@@ -57,14 +94,22 @@ const SpeakerFavorite = ({favorite, onFavoriteToggle}) => {
 }
 
 const SpeakerDemographics = ({
-  first,
-  last,
-  bio,
-  company,
-  twitterHandle,
-  favorite,
+  speaker,
   onFavoriteToggle
+}:{
+  speaker: ISpeaker,
+  onFavoriteToggle: Function
 }) => {
+
+  const {
+    first,
+    last,
+    favorite,
+    bio,
+    company,
+    twitterHandle
+  } = speaker;
+
   return (
     <div className="speaker-info">
       <div className="d-flex justify-content-between mb-3">
@@ -92,7 +137,13 @@ const SpeakerDemographics = ({
   );
 }
 
-const Speaker = ({speaker, onFavoriteToggle}) => {
+const Speaker = ({
+  speaker,
+  onFavoriteToggle
+}: {
+  speaker: ISpeaker,
+  onFavoriteToggle: Function
+}) => {
 
   const {id, first, last, sessions} = speaker;
   const { showSessions } = useContext(SpeakerFilterContext);
@@ -101,9 +152,9 @@ const Speaker = ({speaker, onFavoriteToggle}) => {
     <div className="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-sm-12 col-xs-12">
       <div className="card card-height p-4 mt-4">
         <SpeakerImage id={id} first={first} last={last}/>
-        <SpeakerDemographics {...speaker} onFavoriteToggle={onFavoriteToggle}/>
+        <SpeakerDemographics speaker={speaker} onFavoriteToggle={onFavoriteToggle}/>
       </div>
-      {showSessions === true ?
+      {showSessions.showSessions === true ?
         <Sessions sessions={sessions} /> : null
       }
     </div>

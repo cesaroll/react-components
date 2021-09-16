@@ -1,22 +1,24 @@
 import React,  { createContext } from 'react';
 import { useSpeakerFilter } from '../hooks/useSpeakerFilter';
-import { IShowSessions } from '../types/IShowSessions';
+import { ISpeakerFilter } from '../types/ISpeakerFilter';
 
-export const SpeakerFilterContext = createContext<IShowSessions>({showSessions: false, setShowSessions: () => {}});
+export const SpeakerFilterContext = createContext<ISpeakerFilter>({} as ISpeakerFilter);
 
 export const SpeakerFilterProvider = ({
   children,
+  startingEventYear,
   startingShowSessions = false
 }: {
   children: any,
+  startingEventYear: string,
   startingShowSessions: boolean
 }) => {
 
-  const showSessions = useSpeakerFilter(startingShowSessions);
+  const speakerFilter = useSpeakerFilter(startingShowSessions, startingEventYear);
 
   return (
     <SpeakerFilterContext.Provider
-      value={showSessions}
+      value={speakerFilter}
     >
       {children}
     </SpeakerFilterContext.Provider>
