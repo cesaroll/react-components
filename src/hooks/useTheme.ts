@@ -15,8 +15,8 @@ export const useTheme = (
     }
   };
 
-  return ({
+  return {
     theme: theme,
     setTheme: validateTheme
-  });
+  };
 };

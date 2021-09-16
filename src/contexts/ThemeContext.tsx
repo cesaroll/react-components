@@ -2,7 +2,7 @@ import React, {createContext}  from "react";
 import { useTheme } from "../hooks/useTheme";
 import { ITheme } from "../types/ITheme";
 
-export const ThemeContext = createContext<ITheme>({theme: "", setTheme: (()=>{})});
+export const ThemeContext = createContext<ITheme>({theme: "", setTheme: ()=>{}});
 
  export const ThemeProvider = ({
   children,
