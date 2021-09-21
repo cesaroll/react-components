@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { ISpeaker } from '../types/Speaker/ISpeaker';
+import { IUpdateRecord } from "../types/Speaker/IUpdateRecord";
 
 export const REQUEST_STATUS = {
   LOADING: "loading",
@@ -33,7 +34,7 @@ const useRequestDelay = (
     delayFunc();
   }, []);
 
-  const updateRecord = (recordUpdated: ISpeaker, doneCallback: Function) => {
+  const updateRecord = (recordUpdated: ISpeaker, doneCallback: Function): void => {
     const originalRecords = [...data];
     const newRecords = data.map(rec => rec.id === recordUpdated.id ? recordUpdated : rec);
 
@@ -55,14 +56,13 @@ const useRequestDelay = (
     };
 
     setDataWithDelay();
-
   };
 
   return {
     data,
     requestStatus,
     error,
-    updateRecord
+    updateRecord: {updateRecord: updateRecord} as IUpdateRecord
   };
 }
 

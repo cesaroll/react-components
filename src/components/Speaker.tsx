@@ -3,6 +3,9 @@ import { SpeakerFilterContext } from "../contexts/SpeakerFilterContext";
 import { ISpeakerFilter } from '../types/ISpeakerFilter';
 import { ISession, IRoom } from '../types/Speaker/ISession';
 import { ISpeaker } from '../types/Speaker/ISpeaker';
+import { SpeakerProvider, SpeakerContext } from "../contexts/SpeakerContext";
+import { UpdateRecordContext, UpdateRecordProvider } from "../contexts/UpdateRecordContext";
+import { IUpdateRecord } from "../types/Speaker/IUpdateRecord";
 
 const Session = ({
   title,
@@ -18,7 +21,9 @@ const Session = ({
   );
 }
 
-const Sessions = ({sessions}: {sessions: ISession[]}) => {
+const Sessions = () => {
+
+  const { sessions } = useContext(SpeakerContext);
 
   const { eventYear } = useContext<ISpeakerFilter>(SpeakerFilterContext);
 
@@ -39,15 +44,10 @@ const Sessions = ({sessions}: {sessions: ISession[]}) => {
   );
 }
 
-const SpeakerImage = ({
-  id,
-  first,
-  last
-}: {
-  id: string,
-  first: string,
-  last: string
-}) => {
+const SpeakerImage = () => {
+
+  const {id, first, last} = useContext(SpeakerContext);
+
   return (
     <div className="speaker-img d-flex flex-row justify-content-center align-contents-center h-300">
       <img className="contain-fit"
@@ -59,13 +59,10 @@ const SpeakerImage = ({
   );
 }
 
-const SpeakerFavorite = ({
-  favorite,
-  onFavoriteToggle
-}: {
-  favorite: boolean,
-  onFavoriteToggle: Function
-}) => {
+const SpeakerFavorite = () => {
+
+  const speaker = useContext(SpeakerContext);
+  const updateRecord = useContext(UpdateRecordContext);
 
   const [inTransition, setInTransition] = useState(false);
 
@@ -79,10 +76,15 @@ const SpeakerFavorite = ({
       <span
         onClick={() => {
           setInTransition(true);
-          onFavoriteToggle(doneCallback);
+          updateRecord.updateRecord (
+            {
+              ...speaker, favorite: !speaker.favorite
+            },
+            doneCallback
+          )
         }}
       >
-        <i className={favorite === true ? "fa fa-star orange" : "fa fa-star-o orange"}
+        <i className={speaker.favorite === true ? "fa fa-star orange" : "fa fa-star-o orange"}
         />{" "}
         Favorite{" "}
         {inTransition ? (
@@ -93,13 +95,7 @@ const SpeakerFavorite = ({
   );
 }
 
-const SpeakerDemographics = ({
-  speaker,
-  onFavoriteToggle
-}:{
-  speaker: ISpeaker,
-  onFavoriteToggle: Function
-}) => {
+const SpeakerDemographics = () => {
 
   const {
     first,
@@ -108,7 +104,7 @@ const SpeakerDemographics = ({
     bio,
     company,
     twitterHandle
-  } = speaker;
+  } = useContext(SpeakerContext);
 
   return (
     <div className="speaker-info">
@@ -117,7 +113,7 @@ const SpeakerDemographics = ({
           {first} {last}
         </h3>
       </div>
-      <SpeakerFavorite favorite={favorite} onFavoriteToggle={onFavoriteToggle}/>
+      <SpeakerFavorite />
       <div>
         <p className="card-description">
           {bio}
@@ -139,25 +135,27 @@ const SpeakerDemographics = ({
 
 const Speaker = ({
   speaker,
-  onFavoriteToggle
+  updateRecord
 }: {
   speaker: ISpeaker,
-  onFavoriteToggle: Function
+  updateRecord: IUpdateRecord
 }) => {
-
-  const {id, first, last, sessions} = speaker;
   const { showSessions } = useContext(SpeakerFilterContext);
 
   return (
-    <div className="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-sm-12 col-xs-12">
-      <div className="card card-height p-4 mt-4">
-        <SpeakerImage id={id} first={first} last={last}/>
-        <SpeakerDemographics speaker={speaker} onFavoriteToggle={onFavoriteToggle}/>
+    <SpeakerProvider speaker={speaker} >
+      <div className="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-sm-12 col-xs-12">
+        <div className="card card-height p-4 mt-4">
+          <SpeakerImage />
+          <UpdateRecordProvider updateRecord={updateRecord}>
+            <SpeakerDemographics />
+          </UpdateRecordProvider>
+        </div>
+        {showSessions.showSessions === true ?
+          <Sessions /> : null
+        }
       </div>
-      {showSessions.showSessions === true ?
-        <Sessions sessions={sessions} /> : null
-      }
-    </div>
+    </SpeakerProvider>
   );
 }
 

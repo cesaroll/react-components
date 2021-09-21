@@ -54,10 +54,7 @@ const SpeakersList = () => {
               <Speaker
                 key={speaker.id}
                 speaker={speaker}
-                onFavoriteToggle={(doneCallback: Function) => updateRecord({
-                  ...speaker,
-                  favorite: !speaker.favorite
-                }, doneCallback)}
+                updateRecord={updateRecord}
               />
             );
           })}
