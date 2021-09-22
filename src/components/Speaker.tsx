@@ -6,6 +6,7 @@ import { ISpeaker } from '../types/Speaker/ISpeaker';
 import { SpeakerProvider, SpeakerContext } from "../contexts/SpeakerContext";
 import { MutateRecordContext, MutateRecordProvider } from "../contexts/MutateRecordContext";
 import { IMutateRecord } from "../types/Speaker/IMutateRecord";
+import { SpeakerDelete } from "./SpeakerDelete";
 
 const Session = ({
   title,
@@ -144,17 +145,18 @@ const Speaker = ({
 
   return (
     <SpeakerProvider speaker={speaker} >
-      <div className="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-sm-12 col-xs-12">
-        <div className="card card-height p-4 mt-4">
-          <SpeakerImage />
-          <MutateRecordProvider mutateRecord={mutateRecord}>
-            <SpeakerDemographics />
-          </MutateRecordProvider>
+      <MutateRecordProvider mutateRecord={mutateRecord}>
+        <div className="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-sm-12 col-xs-12">
+          <div className="card card-height p-4 mt-4">
+            <SpeakerImage />
+              <SpeakerDemographics />
+          </div>
+          {showSessions.showSessions === true ?
+            <Sessions /> : null
+          }
+          <SpeakerDelete />
         </div>
-        {showSessions.showSessions === true ?
-          <Sessions /> : null
-        }
-      </div>
+      </MutateRecordProvider>
     </SpeakerProvider>
   );
 }

@@ -5,6 +5,7 @@ import useRequestDelay, {REQUEST_STATUS} from "../hooks/useRequestDelay";
 import Speaker from "./Speaker";
 import { SpeakerFilterContext } from "../contexts/SpeakerFilterContext";
 import { ISpeakerFilter } from "../types/ISpeakerFilter";
+import { SpeakerAdd } from "./SpeakerAdd";
 
 const SpeakersList = () => {
 
@@ -35,6 +36,7 @@ const SpeakersList = () => {
         className="speakerlist-placeholder"
         ready={requestStatus === REQUEST_STATUS.SUCCESS}
       >
+        <SpeakerAdd eventYear={eventYear.eventYear} mutateRecord={mutateRecord} />
         <div className="row">
           {speakersData
             .filter (
