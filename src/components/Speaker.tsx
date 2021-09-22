@@ -4,8 +4,8 @@ import { ISpeakerFilter } from '../types/ISpeakerFilter';
 import { ISession, IRoom } from '../types/Speaker/ISession';
 import { ISpeaker } from '../types/Speaker/ISpeaker';
 import { SpeakerProvider, SpeakerContext } from "../contexts/SpeakerContext";
-import { UpdateRecordContext, UpdateRecordProvider } from "../contexts/UpdateRecordContext";
-import { IUpdateRecord } from "../types/Speaker/IUpdateRecord";
+import { MutateRecordContext, MutateRecordProvider } from "../contexts/MutateRecordContext";
+import { IMutateRecord } from "../types/Speaker/IMutateRecord";
 
 const Session = ({
   title,
@@ -62,7 +62,7 @@ const SpeakerImage = () => {
 const SpeakerFavorite = () => {
 
   const speaker = useContext(SpeakerContext);
-  const updateRecord = useContext(UpdateRecordContext);
+  const mutateRecord = useContext(MutateRecordContext);
 
   const [inTransition, setInTransition] = useState(false);
 
@@ -76,7 +76,7 @@ const SpeakerFavorite = () => {
       <span
         onClick={() => {
           setInTransition(true);
-          updateRecord.updateRecord (
+          mutateRecord.update (
             {
               ...speaker, favorite: !speaker.favorite
             },
@@ -135,10 +135,10 @@ const SpeakerDemographics = () => {
 
 const Speaker = ({
   speaker,
-  updateRecord
+  mutateRecord
 }: {
   speaker: ISpeaker,
-  updateRecord: IUpdateRecord
+  mutateRecord: IMutateRecord
 }) => {
   const { showSessions } = useContext(SpeakerFilterContext);
 
@@ -147,9 +147,9 @@ const Speaker = ({
       <div className="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-sm-12 col-xs-12">
         <div className="card card-height p-4 mt-4">
           <SpeakerImage />
-          <UpdateRecordProvider updateRecord={updateRecord}>
+          <MutateRecordProvider mutateRecord={mutateRecord}>
             <SpeakerDemographics />
-          </UpdateRecordProvider>
+          </MutateRecordProvider>
         </div>
         {showSessions.showSessions === true ?
           <Sessions /> : null

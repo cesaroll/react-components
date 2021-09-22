@@ -12,7 +12,7 @@ const SpeakersList = () => {
     data: speakersData,
     requestStatus,
     error,
-    updateRecord
+    mutateRecord
   } = useRequestDelay(2000, data);
 
   const { searchQuery, eventYear } = useContext<ISpeakerFilter>(SpeakerFilterContext);
@@ -54,7 +54,7 @@ const SpeakersList = () => {
               <Speaker
                 key={speaker.id}
                 speaker={speaker}
-                updateRecord={updateRecord}
+                mutateRecord={mutateRecord}
               />
             );
           })}

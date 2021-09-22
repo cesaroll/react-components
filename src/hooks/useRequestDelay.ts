@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { ISpeaker } from '../types/Speaker/ISpeaker';
-import { IUpdateRecord } from "../types/Speaker/IUpdateRecord";
+import { IMutateRecord } from "../types/Speaker/IMutateRecord";
 
 export const REQUEST_STATUS = {
   LOADING: "loading",
@@ -34,9 +34,57 @@ const useRequestDelay = (
     delayFunc();
   }, []);
 
-  const updateRecord = (recordUpdated: ISpeaker, doneCallback: Function): void => {
+  const updateRecord = (record: ISpeaker, doneCallback: Function): void => {
     const originalRecords = [...data];
-    const newRecords = data.map(rec => rec.id === recordUpdated.id ? recordUpdated : rec);
+    const newRecords = data.map(rec => rec.id === record.id ? record : rec);
+
+    const setDataWithDelay = async () => {
+      try {
+        setData(newRecords);
+        await delay(delayTime);
+        // throw "Had error";
+        if (doneCallback) {
+          doneCallback();
+        }
+      } catch(e) {
+        console.log("Error inside delay function", e);
+        if (doneCallback) {
+          doneCallback();
+        }
+        setData(originalRecords);
+      }
+    };
+
+    setDataWithDelay();
+  };
+
+  const insertRecord = (record: ISpeaker, doneCallback: Function): void => {
+    const originalRecords = [...data];
+    const newRecords = [record, ...data];
+
+    const setDataWithDelay = async () => {
+      try {
+        setData(newRecords);
+        await delay(delayTime);
+        // throw "Had error";
+        if (doneCallback) {
+          doneCallback();
+        }
+      } catch(e) {
+        console.log("Error inside delay function", e);
+        if (doneCallback) {
+          doneCallback();
+        }
+        setData(originalRecords);
+      }
+    };
+
+    setDataWithDelay();
+  };
+
+  const deleteRecord = (record: ISpeaker, doneCallback: Function): void => {
+    const originalRecords = [...data];
+    const newRecords = data.filter(rec => rec.id !== record.id);
 
     const setDataWithDelay = async () => {
       try {
@@ -62,7 +110,7 @@ const useRequestDelay = (
     data,
     requestStatus,
     error,
-    updateRecord: {updateRecord: updateRecord} as IUpdateRecord
+    mutateRecord: {insert: insertRecord, update: updateRecord, delete: deleteRecord} as IMutateRecord
   };
 }
 
