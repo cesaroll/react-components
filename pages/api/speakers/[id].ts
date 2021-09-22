@@ -38,13 +38,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       await delay(1000);
       const speakers = JSON.parse(readFileData).speakers;
       if (speakers) {
-        console.log(` id: ${id}`);
+
         const newSpeakersArray = speakers.map((rec) => rec.id === id ? recordFromBody : rec);
+
         writeFile(jsonFile, JSON.stringify({ speakers: newSpeakersArray }, null, 2));
 
         res.setHeader("Content-Type", "application/json");
         res.status(200).send(JSON.stringify(recordFromBody, null, 2));
-        console.log("PUT /api/speakers/${id} status: 200");
+        console.log(`PUT /api/speakers/${id} status: 200`);
       }
     } catch (e) {
       console.log(`PUT /api/speakers/${id} error`, e);
@@ -68,9 +69,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
         const newSpeakersArray = [newSpeakerRec, ...speakers];
 
+        writeFile(jsonFile, JSON.stringify({ speakers: newSpeakersArray }, null, 2));
+
         res.setHeader("Content-Type", "application/json");
         res.status(200).send(JSON.stringify(newSpeakerRec, null, 2));
-        console.log("POST /api/speakers/${id} status: 200");
+        console.log(`POST /api/speakers/${idNew} status: 200`);
       }
     } catch (e) {
       console.log(`POST /api/speakers/${id} error`, e);
@@ -90,7 +93,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
         res.setHeader("Content-Type", "application/json");
         res.status(200).send(JSON.stringify(speakers.find(rec => rec.id === id), null, 2));
-        console.log("DELETE /api/speakers/${id} status: 200");
+        console.log(`DELETE /api/speakers/${id} status: 200`);
       }
     } catch (e) {
       console.log(`DELETE /api/speakers/${id} error`, e);
