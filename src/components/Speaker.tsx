@@ -7,6 +7,7 @@ import { SpeakerProvider, SpeakerContext } from "../contexts/SpeakerContext";
 import { MutateRecordContext, MutateRecordProvider } from "../contexts/MutateRecordContext";
 import { IMutateRecord } from "../types/Speaker/IMutateRecord";
 import { SpeakerDelete } from "./SpeakerDelete";
+import ErrorBoundary from "./ErrorBoundary";
 
 const Session = ({
   title,
@@ -138,7 +139,7 @@ const areEqualsSpeaker = (prevProps: any, nextProps: any) => {
   return (prevProps.speaker.favorite === nextProps.speaker.favorite);
 }
 
-const Speaker = memo(
+const SpeakerNoErrorBoundary = memo(
   ({
   speaker,
   mutateRecord
@@ -167,5 +168,13 @@ const Speaker = memo(
     </SpeakerProvider>
   );
 }, areEqualsSpeaker);
+
+const Speaker = (props: any) => {
+  return (
+    <ErrorBoundary>
+      <SpeakerNoErrorBoundary {...props}></SpeakerNoErrorBoundary>
+    </ErrorBoundary>
+  );
+}
 
 export default Speaker;
