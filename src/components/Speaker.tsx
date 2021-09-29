@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useState, useContext, memo } from "react";
 import { SpeakerFilterContext } from "../contexts/SpeakerFilterContext";
 import { ISpeakerFilter } from '../types/ISpeakerFilter';
 import { ISession, IRoom } from '../types/Speaker/ISession';
@@ -134,7 +134,12 @@ const SpeakerDemographics = () => {
   );
 }
 
-const Speaker = ({
+const areEqualsSpeaker = (prevProps, nextProps) => {
+  return (prevProps.speaker.favorite === nextProps.speaker.favorite);
+}
+
+const Speaker = memo(
+  ({
   speaker,
   mutateRecord
 }: {
@@ -142,6 +147,8 @@ const Speaker = ({
   mutateRecord: IMutateRecord
 }) => {
   const { showSessions } = useContext(SpeakerFilterContext);
+
+  console.log(`speaker: ${speaker.id} ${speaker.first} ${speaker.last}`);
 
   return (
     <SpeakerProvider speaker={speaker} >
@@ -159,6 +166,6 @@ const Speaker = ({
       </MutateRecordProvider>
     </SpeakerProvider>
   );
-}
+}, areEqualsSpeaker);
 
 export default Speaker;
