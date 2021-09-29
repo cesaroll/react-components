@@ -117,7 +117,7 @@ const SpeakerDemographics = () => {
       <SpeakerFavorite />
       <div>
         <p className="card-description">
-          {bio}
+          {bio.substring(0,70)}
         </p>
         <div className="social d-flex flex-row mt-4">
           <div className="company">
@@ -134,7 +134,7 @@ const SpeakerDemographics = () => {
   );
 }
 
-const areEqualsSpeaker = (prevProps, nextProps) => {
+const areEqualsSpeaker = (prevProps: any, nextProps: any) => {
   return (prevProps.speaker.favorite === nextProps.speaker.favorite);
 }
 

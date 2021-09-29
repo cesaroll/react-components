@@ -13,7 +13,7 @@ const restUrl = "api/speakers";
 
 const useRequestRest = () => {
 
-  const [data, setData] = useState([]);
+  const [data, setData] = useState<any[]>([]);
   const [requestStatus, setRequestStatus] = useState(REQUEST_STATUS.LOADING);
   const [error, setError] = useState("");
 
@@ -36,7 +36,7 @@ const useRequestRest = () => {
 
   const updateRecord = (record: ISpeaker, doneCallback: Function): void => {
     const originalRecords = [...data];
-    const newRecords = data.map(rec => rec.id === record.id ? record : rec);
+    const newRecords = data.map((rec: any) => rec.id === record.id ? record : rec);
 
     const setDataWithDelay = async () => {
       try {

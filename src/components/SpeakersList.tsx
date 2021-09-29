@@ -5,6 +5,7 @@ import { SpeakerFilterContext } from "../contexts/SpeakerFilterContext";
 import { ISpeakerFilter } from "../types/ISpeakerFilter";
 import { SpeakerAdd } from "./SpeakerAdd";
 import useRequestRest, {REQUEST_STATUS} from '../hooks/useRequestRest';
+import { TypeOfTag } from "typescript";
 
 const SpeakersList = () => {
 
@@ -39,18 +40,18 @@ const SpeakersList = () => {
         <div className="row">
           {speakersData
             .filter (
-              speaker =>
+              (speaker: any) =>
                 speaker.first.toLowerCase().includes(searchQuery.searchQuery.toLowerCase()) ||
                  speaker.last.toLowerCase().includes(searchQuery.searchQuery.toLowerCase())
             )
             .filter (
-              speaker =>
+              (speaker: any) =>
                 speaker.sessions.find(
-                  session =>
+                  (session: any) =>
                     session.eventYear === eventYear.eventYear
                 )
             )
-            .map((speaker) => {
+            .map((speaker:any) => {
             return (
               <Speaker
                 key={speaker.id}

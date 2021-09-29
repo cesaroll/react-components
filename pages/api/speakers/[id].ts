@@ -39,7 +39,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       const speakers = JSON.parse(readFileData).speakers;
       if (speakers) {
 
-        const newSpeakersArray = speakers.map((rec) => rec.id === id ? recordFromBody : rec);
+        const newSpeakersArray = speakers.map((rec: any) => rec.id === id ? recordFromBody : rec);
 
         writeFile(jsonFile, JSON.stringify({ speakers: newSpeakersArray }, null, 2));
 
@@ -60,7 +60,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       const speakers = JSON.parse(readFileData).speakers;
       if (speakers) {
 
-        const idNew = speakers.reduce((accumulator, currentValue) => {
+        const idNew = speakers.reduce((accumulator: any, currentValue: any) => {
           const idCurrent = parseInt(currentValue.id);
           return idCurrent > accumulator ? idCurrent : accumulator;
         }, 0) + 1;
@@ -87,12 +87,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       await delay(1000);
       const speakers = JSON.parse(readFileData).speakers;
       if (speakers) {
-        const newSpeakersArray = speakers.filter((rec) => rec.id !== id);
+        const newSpeakersArray = speakers.filter((rec: any) => rec.id !== id);
 
         writeFile(jsonFile, JSON.stringify({ speakers: newSpeakersArray }, null, 2));
 
         res.setHeader("Content-Type", "application/json");
-        res.status(200).send(JSON.stringify(speakers.find(rec => rec.id === id), null, 2));
+        res.status(200).send(JSON.stringify(speakers.find((rec: any) => rec.id === id), null, 2));
         console.log(`DELETE /api/speakers/${id} status: 200`);
       }
     } catch (e) {
