@@ -1,13 +1,18 @@
 import { IMutateRecord } from "../types/Speaker/IMutateRecord";
 import { ISpeaker } from '../types/Speaker/ISpeaker';
+import withAuth from "./withAuth";
 
-export const SpeakerAdd = ({
+const SpeakerAdd = ({
   eventYear,
-  mutateRecord
+  mutateRecord,
+  loggedInUser
 }: {
   eventYear: string,
-  mutateRecord: IMutateRecord
+  mutateRecord: IMutateRecord,
+  any
 }) => {
+
+  if (!loggedInUser || loggedInUser.length === 0) return null;
 
   return (
     <a href="#" className="addSes">
@@ -40,3 +45,7 @@ export const SpeakerAdd = ({
     </a>
   );
 }
+
+export default withAuth(SpeakerAdd);
+
+//export default withAuth(SpeakerAdd);

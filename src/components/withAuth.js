@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { AuthContext } from "../contexts/AuthContext";
 
-const withAuth = (Compoenent) => {
+const withAuth = (Component) => {
   return (props) => {
     const { loggedInUser, setLoggedInUser } = useContext(AuthContext);
     return (
@@ -10,3 +10,5 @@ const withAuth = (Compoenent) => {
     );
   };
 }
+
+export default withAuth;

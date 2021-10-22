@@ -3,7 +3,7 @@ import ReactPlaceHolder from "react-placeholder/lib";
 import Speaker from "./Speaker";
 import { SpeakerFilterContext } from "../contexts/SpeakerFilterContext";
 import { ISpeakerFilter } from "../types/ISpeakerFilter";
-import { SpeakerAdd } from "./SpeakerAdd";
+import SpeakerAdd from "./SpeakerAdd";
 import useRequestRest, {REQUEST_STATUS} from '../hooks/useRequestRest';
 import { TypeOfTag } from "typescript";
 
